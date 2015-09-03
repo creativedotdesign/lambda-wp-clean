@@ -34,6 +34,15 @@ if ( ! class_exists( 'WP_Clean' ) ) {
       add_action( 'do_feed_atom', array( $this, 'action_disable_feed'), 1 );
       add_action( 'do_feed_rss2_comments', array( $this, 'action_disable_feed'), 1  );
       add_action( 'do_feed_atom_comments', array( $this, 'action_disable_feed'), 1 );
+
+      add_action( 'parse_query', array( $this, 'action_disable_search' ) );
+      add_filter( 'get_search_form', create_function( '$a', "return null;" ) );
+
+      add_filter( 'wp_headers', array( $this, 'filter_remove_header_pingback' ) );
+      add_filter( 'xmlrpc_methods', array( $this, 'filter_disable_pingback' ) );
+
+      add_filter('xmlrpc_enabled', '__return_false');
+
     }
 
     // Remove comments and posts in admin menu
@@ -134,6 +143,29 @@ if ( ! class_exists( 'WP_Clean' ) ) {
       $wp_query->set_404();
       status_header(404);
       wp_die( __( 'No feed available, please visit the <a href="'. esc_url( home_url( '/' ) ) .'">homepage</a>!' ) );
+    }
+
+    //Disable search, no more ?s=something
+    function action_disable_search( $query, $error = true ) {
+      if ( is_search() ) {
+        $query->is_search = false;
+        $query->query_vars[s] = false;
+        $query->query[s] = false;
+        if ( $error == true )
+          $query->is_404 = true;
+      }
+    }
+
+    // Remove x-pingback HTTP header
+    function filter_remove_header_pingback ( $headers ) {
+      unset( $headers[ 'X-Pingback' ] );
+      return $headers;
+    }
+
+    // disable pingbacks
+     function filter_disable_pingback ( $methods ) {
+    	unset( $methods['pingback.ping'] );
+    	return $methods;
     }
 
   } // End of WP_Clean class
