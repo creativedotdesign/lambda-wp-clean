@@ -10,10 +10,12 @@ if ( ! class_exists( 'WP_Clean' ) ) {
     public function __construct() {
 
       // Disable the theme / plugin text editor in Admin
-      define('DISALLOW_FILE_EDIT', true);
+      if ( !defined( 'DISALLOW_FILE_EDIT' ) ) {
+        define( 'DISALLOW_FILE_EDIT' , true );
+      }
 
       add_action( 'admin_menu' , array( $this, 'action_remove_menus' ) );
-
+      add_filter( 'manage_pages_columns', array( $this, 'custom_pages_columns' ) );
       add_filter( 'style_loader_tag', array( $this, 'filter_style_remove' ) );
       add_filter( 'style_loader_src', array( $this, 'filter_remove_version_script_style' ), 20000 );
       add_filter( 'script_loader_src', array( $this, 'filter_remove_version_script_style' ), 20000 );
@@ -23,9 +25,8 @@ if ( ! class_exists( 'WP_Clean' ) ) {
       add_action( 'template_redirect', array( $this, 'action_attachement_template_redirect' ) );
       add_action( 'template_redirect', array( $this, 'action_author_template_redirect' ) );
       add_action( 'init', array( $this, 'action_disable_wp_emojicons' ) );
-
+      add_filter( 'tiny_mce_plugins', array( $this, 'filter_disable_emojicons_tinymce' ) );
       add_filter( 'show_admin_bar', '__return_false' ); //Remove admin bar
-
       add_action( 'init', array( $this, 'action_remove_wp_head_extras' ) );
       add_action( 'do_feed', array( $this, 'action_disable_feed'), 1 );
       add_action( 'do_feed_rdf', array( $this, 'action_disable_feed'), 1 );
@@ -34,21 +35,23 @@ if ( ! class_exists( 'WP_Clean' ) ) {
       add_action( 'do_feed_atom', array( $this, 'action_disable_feed'), 1 );
       add_action( 'do_feed_rss2_comments', array( $this, 'action_disable_feed'), 1  );
       add_action( 'do_feed_atom_comments', array( $this, 'action_disable_feed'), 1 );
-
       add_action( 'parse_query', array( $this, 'action_disable_search' ) );
       add_filter( 'get_search_form', create_function( '$a', "return null;" ) );
-
       add_filter( 'wp_headers', array( $this, 'filter_remove_header_pingback' ) );
       add_filter( 'xmlrpc_methods', array( $this, 'filter_disable_pingback' ) );
-
-      add_filter('xmlrpc_enabled', '__return_false');
-
+      add_filter( 'xmlrpc_enabled', '__return_false' );
     }
 
     // Remove comments and posts in admin menu
     function action_remove_menus() {
       remove_menu_page( 'edit-comments.php' );
       remove_menu_page( 'edit.php' );
+    }
+
+    // Remove comments column from pages
+    function custom_pages_columns( $defaults ) {
+      unset( $defaults[ 'comments' ] );
+      return $defaults;
     }
 
     // Remove 'text/css' from enqueued stylesheet
@@ -92,6 +95,7 @@ if ( ! class_exists( 'WP_Clean' ) ) {
       }
     }
 
+    // No author pages. Send to 404
     function action_author_template_redirect() {
       if ( is_author() ) {
         $wp_query->set_404();
@@ -107,11 +111,9 @@ if ( ! class_exists( 'WP_Clean' ) ) {
       remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
       remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
       remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
-
-      // filter to remove TinyMCE emojis
-      add_filter( 'tiny_mce_plugins', 'filter_disable_emojicons_tinymce' );
     }
 
+    // fRemove TinyMCE emojis
     function filter_disable_emojicons_tinymce( $plugins ) {
       if ( is_array( $plugins ) ) {
         return array_diff( $plugins, array( 'wpemoji' ) );
@@ -137,7 +139,7 @@ if ( ! class_exists( 'WP_Clean' ) ) {
       remove_action( 'wp_head', 'wp_shortlink_wp_head', 10, 0 );
     }
 
-    //Disbale RSS feeds
+    // Disbale RSS feeds
     function action_disable_feed() {
       global $wp_query;
       $wp_query->set_404();
@@ -145,12 +147,12 @@ if ( ! class_exists( 'WP_Clean' ) ) {
       wp_die( __( 'No feed available, please visit the <a href="'. esc_url( home_url( '/' ) ) .'">homepage</a>!' ) );
     }
 
-    //Disable search, no more ?s=something
+    // Disable search, no more ?s=something
     function action_disable_search( $query, $error = true ) {
       if ( is_search() ) {
-        $query->is_search = false;
+        $query->is_search     = false;
         $query->query_vars[s] = false;
-        $query->query[s] = false;
+        $query->query[s]      = false;
         if ( $error == true )
           $query->is_404 = true;
       }
