@@ -7,39 +7,42 @@ if ( ! class_exists( 'WP_Clean' ) ) {
 
   class WP_Clean {
 
-    public function __construct() {
+    public static function init() {
+
+      $self = new self();
 
       // Disable the theme / plugin text editor in Admin
       if ( !defined( 'DISALLOW_FILE_EDIT' ) ) {
         define( 'DISALLOW_FILE_EDIT' , true );
       }
 
-      add_action( 'admin_menu' , array( $this, 'action_remove_menus' ) );
-      add_filter( 'manage_pages_columns', array( $this, 'custom_pages_columns' ) );
-      add_filter( 'style_loader_tag', array( $this, 'filter_style_remove' ) );
-      add_filter( 'style_loader_src', array( $this, 'filter_remove_version_script_style' ), 20000 );
-      add_filter( 'script_loader_src', array( $this, 'filter_remove_version_script_style' ), 20000 );
-      add_filter( 'post_thumbnail_html', array( $this, 'filter_remove_thumbnail_dimensions'), 10 ); // Remove width and height dynamic attributes to thumbnails
-      add_filter( 'image_send_to_editor', array( $this, 'filter_remove_thumbnail_dimensions'), 10 ); // Remove width and height dynamic attributes to post images
-      add_filter( 'redirect_canonical', array( $this, 'filter_no_redirect_on_404' ) );
-      add_action( 'template_redirect', array( $this, 'action_attachement_template_redirect' ) );
-      add_action( 'template_redirect', array( $this, 'action_author_template_redirect' ) );
-      add_action( 'init', array( $this, 'action_disable_wp_emojicons' ) );
-      add_filter( 'tiny_mce_plugins', array( $this, 'filter_disable_emojicons_tinymce' ) );
+      add_action( 'admin_menu' , array( $self, 'action_remove_menus' ) );
+      add_filter( 'manage_pages_columns', array( $self, 'custom_pages_columns' ) );
+      add_filter( 'style_loader_tag', array( $self, 'filter_style_remove' ) );
+      add_filter( 'style_loader_src', array( $self, 'filter_remove_version_script_style' ), 20000 );
+      add_filter( 'script_loader_src', array( $self, 'filter_remove_version_script_style' ), 20000 );
+      add_filter( 'post_thumbnail_html', array( $self, 'filter_remove_thumbnail_dimensions'), 10 ); // Remove width and height dynamic attributes to thumbnails
+      add_filter( 'image_send_to_editor', array( $self, 'filter_remove_thumbnail_dimensions'), 10 ); // Remove width and height dynamic attributes to post images
+      add_filter( 'redirect_canonical', array( $self, 'filter_no_redirect_on_404' ) );
+      add_action( 'template_redirect', array( $self, 'action_attachement_template_redirect' ) );
+      add_action( 'template_redirect', array( $self, 'action_author_template_redirect' ) );
+      add_action( 'init', array( $self, 'action_disable_wp_emojicons' ) );
+      add_filter( 'tiny_mce_plugins', array( $self, 'filter_disable_emojicons_tinymce' ) );
       add_filter( 'show_admin_bar', '__return_false' ); //Remove admin bar
-      add_action( 'init', array( $this, 'action_remove_wp_head_extras' ) );
-      add_action( 'do_feed', array( $this, 'action_disable_feed'), 1 );
-      add_action( 'do_feed_rdf', array( $this, 'action_disable_feed'), 1 );
-      add_action( 'do_feed_rss', array( $this, 'action_disable_feed'), 1 );
-      add_action( 'do_feed_rss2', array( $this, 'action_disable_feed'), 1 );
-      add_action( 'do_feed_atom', array( $this, 'action_disable_feed'), 1 );
-      add_action( 'do_feed_rss2_comments', array( $this, 'action_disable_feed'), 1  );
-      add_action( 'do_feed_atom_comments', array( $this, 'action_disable_feed'), 1 );
-      add_action( 'parse_query', array( $this, 'action_disable_search' ) );
+      add_action( 'init', array( $self, 'action_remove_wp_head_extras' ) );
+      add_action( 'do_feed', array( $self, 'action_disable_feed'), 1 );
+      add_action( 'do_feed_rdf', array( $self, 'action_disable_feed'), 1 );
+      add_action( 'do_feed_rss', array( $self, 'action_disable_feed'), 1 );
+      add_action( 'do_feed_rss2', array( $self, 'action_disable_feed'), 1 );
+      add_action( 'do_feed_atom', array( $self, 'action_disable_feed'), 1 );
+      add_action( 'do_feed_rss2_comments', array( $self, 'action_disable_feed'), 1  );
+      add_action( 'do_feed_atom_comments', array( $self, 'action_disable_feed'), 1 );
+      add_action( 'parse_query', array( $self, 'action_disable_search' ) );
       add_filter( 'get_search_form', create_function( '$a', "return null;" ) );
-      add_filter( 'wp_headers', array( $this, 'filter_remove_header_pingback' ) );
-      add_filter( 'xmlrpc_methods', array( $this, 'filter_disable_pingback' ) );
+      add_filter( 'wp_headers', array( $self, 'filter_remove_header_pingback' ) );
+      add_filter( 'xmlrpc_methods', array( $self, 'filter_disable_pingback' ) );
       add_filter( 'xmlrpc_enabled', '__return_false' );
+
     }
 
     // Remove comments and posts in admin menu

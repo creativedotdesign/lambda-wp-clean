@@ -9,4 +9,5 @@
  */
 
 require_once( 'class-wp-clean.php' );
-$clean = new WP_Clean;
+
+add_action('plugins_loaded', array('WP_Clean', 'init'));
