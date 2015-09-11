@@ -1,0 +1,22 @@
+{
+  "name": "danimalweb/wp-clean",
+  "type": "library",
+  "description": "WordPress plugin to clean up unused functionality and extra bloat.",
+  "keywords": ["wp","wordpress", "clean"],
+  "homepage": "https://github.com/danimalweb/wp-clean",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Daniel Hewes",
+      "email": "daniel@lambdacreatives.com",
+      "homepage": "http://lambdacreatives.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.2.4"
+  },
+  "autoload": {
+    "classmap": ["class-wp-clean.php"]
+  }
+}
