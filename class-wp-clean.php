@@ -42,6 +42,7 @@ if ( ! class_exists( 'WP_Clean' ) ) {
       add_filter( 'wp_headers', array( $self, 'filter_remove_header_pingback' ) );
       add_filter( 'xmlrpc_methods', array( $self, 'filter_disable_pingback' ) );
       add_filter( 'xmlrpc_enabled', '__return_false' );
+      add_action( 'admin_init', array( $self, 'remove_dashboard_widgets' ) );
 
     }
 
@@ -171,6 +172,14 @@ if ( ! class_exists( 'WP_Clean' ) ) {
      function filter_disable_pingback ( $methods ) {
     	unset( $methods['pingback.ping'] );
     	return $methods;
+    }
+
+    // Remove unnecessary dashboard widgets
+    function remove_dashboard_widgets() {
+      remove_meta_box('dashboard_incoming_links', 'dashboard', 'normal');
+      remove_meta_box('dashboard_plugins', 'dashboard', 'normal');
+      remove_meta_box('dashboard_primary', 'dashboard', 'normal');
+      remove_meta_box('dashboard_secondary', 'dashboard', 'normal');
     }
 
   } // End of WP_Clean class
