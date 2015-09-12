@@ -18,7 +18,8 @@ if ( ! class_exists( 'WP_Clean' ) ) {
 
       add_action( 'admin_menu' , array( $self, 'action_remove_menus' ) );
       add_filter( 'manage_pages_columns', array( $self, 'custom_pages_columns' ) );
-      add_filter( 'style_loader_tag', array( $self, 'filter_style_remove' ) );
+      add_filter( 'style_loader_tag', array( $self, 'filter_type_remove' ) );
+      add_filter( 'script_loader_tag', array( $self, 'filter_type_remove' ) );
       add_filter( 'style_loader_src', array( $self, 'filter_remove_version_script_style' ), 20000 );
       add_filter( 'script_loader_src', array( $self, 'filter_remove_version_script_style' ), 20000 );
       add_filter( 'post_thumbnail_html', array( $self, 'filter_remove_thumbnail_dimensions'), 10 ); // Remove width and height dynamic attributes to thumbnails
@@ -43,6 +44,8 @@ if ( ! class_exists( 'WP_Clean' ) ) {
       add_filter( 'xmlrpc_methods', array( $self, 'filter_disable_pingback' ) );
       add_filter( 'xmlrpc_enabled', '__return_false' );
       add_action( 'admin_init', array( $self, 'remove_dashboard_widgets' ) );
+      add_filter( 'body_class', array( $self, 'body_class' ) );
+      add_filter( 'style_loader_tag', array( $self, 'remove_self_closing_tags' ) );
 
     }
 
@@ -58,9 +61,15 @@ if ( ! class_exists( 'WP_Clean' ) ) {
       return $defaults;
     }
 
-    // Remove 'text/css' from enqueued stylesheet
-    function filter_style_remove( $tag ) {
-      return preg_replace( '~\s+type=["\'][^"\']++["\']~', '', $tag );
+    // Remove 'text/css' and 'text/javascript' from enqueued stylesheets and scripts
+    function filter_type_remove( $input ) {
+      $input = preg_replace( '~\s+type=["\'][^"\']++["\']~', '', $input );
+      return str_replace( "'", '"', $input );
+    }
+
+    // Remove unnecessary self-closing tags
+    function remove_self_closing_tags($input) {
+      return str_replace(' />', '>', $input);
     }
 
     // Remove style and script versions from source code URL's
@@ -184,6 +193,24 @@ if ( ! class_exists( 'WP_Clean' ) ) {
       remove_meta_box('dashboard_primary', 'dashboard', 'normal');
       remove_meta_box('dashboard_secondary', 'dashboard', 'normal');
       remove_action( 'welcome_panel', 'wp_welcome_panel' );
+    }
+
+    // Add and remove body_class() classes
+    function body_class($classes) {
+      // Add post/page slug if not present
+      if (is_single() || is_page() && !is_front_page()) {
+        if (!in_array(basename(get_permalink()), $classes)) {
+          $classes[] = basename(get_permalink());
+        }
+      }
+      // Remove unnecessary classes
+      $home_id_class = 'page-id-' . get_option('page_on_front');
+      $remove_classes = [
+        'page-template-default',
+        $home_id_class
+      ];
+      $classes = array_diff($classes, $remove_classes);
+      return $classes;
     }
 
   } // End of WP_Clean class
