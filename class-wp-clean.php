@@ -47,6 +47,7 @@ if ( ! class_exists( 'WP_Clean' ) ) {
       add_filter( 'body_class', array( $self, 'body_class' ) );
       add_filter( 'style_loader_tag', array( $self, 'remove_self_closing_tags' ) );
       add_action( 'wp_before_admin_bar_render', array( $self, 'admin_bar_render' ) );
+      add_filter( 'admin_footer_text' , '__return_false' ); //Remove admin footer text
 
     }
 
