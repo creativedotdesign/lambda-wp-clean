@@ -46,6 +46,7 @@ if ( ! class_exists( 'WP_Clean' ) ) {
       add_action( 'admin_init', array( $self, 'remove_dashboard_widgets' ) );
       add_filter( 'body_class', array( $self, 'body_class' ) );
       add_filter( 'style_loader_tag', array( $self, 'remove_self_closing_tags' ) );
+      add_action( 'wp_before_admin_bar_render', array( $self, 'admin_bar_render' ) );
 
     }
 
@@ -194,6 +195,13 @@ if ( ! class_exists( 'WP_Clean' ) ) {
       remove_meta_box('dashboard_primary', 'dashboard', 'normal');
       remove_meta_box('dashboard_secondary', 'dashboard', 'normal');
       remove_action( 'welcome_panel', 'wp_welcome_panel' );
+    }
+
+    //Remove comments and WP logo from admin bar
+    function admin_bar_render() {
+      global $wp_admin_bar;
+      $wp_admin_bar->remove_menu('comments');
+      $wp_admin_bar->remove_node('wp-logo');
     }
 
     // Add and remove body_class() classes
