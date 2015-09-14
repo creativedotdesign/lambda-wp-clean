@@ -54,7 +54,7 @@ if ( ! class_exists( 'WP_Clean' ) ) {
     function action_remove_menus() {
       remove_menu_page( 'edit-comments.php' );
       remove_menu_page( 'edit.php' );
-      remove_menu_page( 'options-discussion.php' );
+      remove_submenu_page( 'options-general.php', 'options-discussion.php' );
     }
 
     // Remove comments column from pages
