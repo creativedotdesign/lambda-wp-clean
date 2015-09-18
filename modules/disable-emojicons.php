@@ -1,5 +1,5 @@
 <?php
-namespace WP_Clean\DisableEmojIcons
+namespace WP_Clean\DisableEmojIcons;
 
 // remove all actions related to emojis
 function action_disable_wp_emojicons() {

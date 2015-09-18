@@ -1,5 +1,5 @@
 <?php
-namespace WP_Clean\DisableAuthorPages
+namespace WP_Clean\DisableAuthorPages;
 
 // No author pages. Send to 404
 function action_author_template_redirect() {

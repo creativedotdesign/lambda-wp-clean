@@ -1,5 +1,5 @@
 <?php
-namespace WP_Clean\RemoveDashboardWidgets
+namespace WP_Clean\RemoveDashboardWidgets;
 
 // Remove unnecessary dashboard widgets
 function remove_dashboard_widgets() {

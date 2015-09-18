@@ -1,5 +1,5 @@
 <?php
-namespace WP_Clean\DisableAttachmentPages
+namespace WP_Clean\DisableAttachmentPages;
 
 // No attachement pages. Return user to parent post or 404 if orphan
 function action_attachement_template_redirect () {

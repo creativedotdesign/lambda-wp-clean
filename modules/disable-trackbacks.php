@@ -1,5 +1,5 @@
 <?php
-namespace WP_Clean\CleanUp
+namespace WP_Clean\CleanUp;
 
 add_filter( 'xmlrpc_enabled', '__return_false' );
 

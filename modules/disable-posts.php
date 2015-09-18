@@ -1,5 +1,5 @@
 <?php
-namespace WP_Clean\DisablePosts
+namespace WP_Clean\DisablePosts;
 
 // Remove posts in admin menu
 function action_remove_menus() {

@@ -1,6 +1,5 @@
 <?php
-
-namespace WP_Clean\DisableComments
+namespace WP_Clean\DisableComments;
 
 // Remove comments in admin menu
 function action_remove_admin_menus() {

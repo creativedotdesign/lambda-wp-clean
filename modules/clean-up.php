@@ -1,5 +1,5 @@
 <?php
-namespace WP_Clean\CleanUp
+namespace WP_Clean\CleanUp;
 
 add_filter( 'show_admin_bar', '__return_false' ); //Remove admin bar
 add_filter( 'admin_footer_text' , '__return_false' ); //Remove admin footer text

@@ -1,5 +1,5 @@
 <?php
-namespace WP_Clean\DisableFeed
+namespace WP_Clean\DisableFeed;
 
 // Disbale RSS feeds
 function disable_feed() {

@@ -1,5 +1,5 @@
 <?php
-namespace WP_Clean\DisableSearch
+namespace WP_Clean\DisableSearch;
 
 // Disable search, no more ?s=something
 function disable_search( $query, $error = true ) {
