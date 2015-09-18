@@ -12,7 +12,7 @@ namespace WP_Clean;
 
 function load_modules() {
   foreach (glob(__DIR__ . '/modules/*.php') as $file) {
-    if (current_theme_supports('WP_Clean-' . basename($file))) {
+    if (current_theme_supports('WP_Clean-' . basename($file, '.php'))) {
       require_once $file;
     }
   }
