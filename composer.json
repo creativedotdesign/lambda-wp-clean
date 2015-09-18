@@ -14,9 +14,9 @@
     }
   ],
   "require": {
-    "php": ">=5.2.4"
+    "php": ">=5.3"
   },
   "autoload": {
-    "classmap": ["class-wp-clean.php"]
+    "files": ["wp-clean.php"]
   }
 }
