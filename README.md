@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/danimalweb/wp-clean.svg)](https://travis-ci.org/danimalweb/wp-clean)
+
 # wp-clean
 WordPress plugin to clean up unused functionality and extra bloat.
 
