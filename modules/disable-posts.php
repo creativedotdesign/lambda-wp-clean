@@ -6,4 +6,4 @@ function action_remove_menus() {
   remove_menu_page( 'edit.php' );
 }
 
-add_action( 'wp_before_admin_bar_render', __NAMESPACE__ . '\\action_remove_menus' );
+add_action( 'admin_menu', __NAMESPACE__ . '\\action_remove_menus' );
