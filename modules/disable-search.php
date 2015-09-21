@@ -14,4 +14,4 @@ function disable_search( $query, $error = true ) {
 
 add_action( 'parse_query', __NAMESPACE__ . '\\disable_search' );
 
-add_filter( 'get_search_form', create_function( '$a', "return null;" ) );
+add_filter( 'get_search_form', '__return_false' );
