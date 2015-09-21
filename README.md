@@ -30,7 +30,7 @@ The built in posts that come with the default install.<br>
 * **Disable Search**<br>
 `add_theme_support('WP_Clean-disable-search');`
 
-* **Disable Trakcbacks**<br>
+* **Disable Trackbacks**<br>
 `add_theme_support('WP_Clean-disable-trackbacks');`
 
 * **No redirect to fuzzy match on 404 error**<br>
