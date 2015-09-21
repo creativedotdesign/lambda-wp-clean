@@ -76,10 +76,7 @@ function body_class($classes) {
   }
   // Remove unnecessary classes
   $home_id_class = 'page-id-' . get_option('page_on_front');
-  $remove_classes = [
-    'page-template-default',
-    $home_id_class
-  ];
+  $remove_classes = array('page-template-default', $home_id_class);
   $classes = array_diff($classes, $remove_classes);
   return $classes;
 }
