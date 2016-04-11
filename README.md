@@ -37,4 +37,4 @@ The built in posts that come with the default install.<br>
 `add_theme_support('WP_Clean-no-redirect-on-404');`
 
 * **Remove Dashboard Widgets**<br>
-`add_theme_support('WP_Clean-disable-dashboard-widgets');`
+`add_theme_support('WP_Clean-remove-dashboard-widgets');`
