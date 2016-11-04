@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: WP Clean
+ * Plugin Name: Lambda WP Clean
  * Plugin URI: https://github.com/danimalweb/wp-clean
  * Description: WordPress plugin to clean up unused functionality and extra bloat.
  * Author: Daniel Hewes
