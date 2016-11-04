@@ -1,17 +1,16 @@
 <?php
-namespace WP_Clean\DisableSearch;
-
-// Disable search, no more ?s=something
-function disable_search( $query, $error = true ) {
-  if ( is_search() ) {
+/**
+ * Disable search, no more ?s=something
+ */
+add_action('parse_query', function($query, $error = true) {
+  if (is_search()) {
     $query->is_search     = false;
     $query->query_vars[s] = false;
     $query->query[s]      = false;
-    if ( $error == true )
+    if ($error == true) {
       $query->is_404 = true;
+    }
   }
-}
+});
 
-add_action( 'parse_query', __NAMESPACE__ . '\\disable_search' );
-
-add_filter( 'get_search_form', '__return_false' );
+add_filter('get_search_form', '__return_false');

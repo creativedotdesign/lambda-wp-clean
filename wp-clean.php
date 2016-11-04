@@ -1,21 +1,19 @@
 <?php
 /**
  * Plugin Name: WP Clean
- * Plugin URI:
- * Description: Clean up unused WordPress functions for cleaner theme development.
+ * Plugin URI: https://github.com/danimalweb/wp-clean
+ * Description: WordPress plugin to clean up unused functionality and extra bloat.
  * Author: Daniel Hewes
- * Version: 0.1
+ * Version: 0.2
  * Author URI: http://lambdacreatives.com/
  */
 
-namespace WP_Clean;
+require_once 'wp-multifilter.php';
 
-function load_modules() {
+add_action('after_setup_theme', function() {
   foreach (glob(__DIR__ . '/modules/*.php') as $file) {
-    if (current_theme_supports('WP_Clean-' . basename($file, '.php'))) {
+    if (current_theme_supports('wp-clean-' . basename($file, '.php'))) {
       require_once $file;
     }
   }
-}
-
-add_action('after_setup_theme', __NAMESPACE__ . '\\load_modules');
+});
