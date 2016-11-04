@@ -1,18 +1,18 @@
 <?php
-namespace WP_Clean\DisableFeed;
-
-// Disbale RSS feeds
-function disable_feed() {
+/**
+ * Disbale RSS feeds
+ */
+add_actions([
+  'do_feed',
+  'do_feed_rdf',
+  'do_feed_rss',
+  'do_feed_rss2',
+  'do_feed_atom',
+  'do_feed_rss2_comments',
+  'do_feed_atom_comments'
+], function() {
   global $wp_query;
   $wp_query->set_404();
   status_header(404);
-  wp_die( __( 'No feed available, please visit the <a href="'. esc_url( home_url( '/' ) ) .'">homepage</a>!' ) );
-}
-
-add_action( 'do_feed', __NAMESPACE__ . '\\disable_feed', 1 );
-add_action( 'do_feed_rdf', __NAMESPACE__ . '\\disable_feed', 1 );
-add_action( 'do_feed_rss', __NAMESPACE__ . '\\disable_feed', 1 );
-add_action( 'do_feed_rss2', __NAMESPACE__ . '\\disable_feed', 1 );
-add_action( 'do_feed_atom', __NAMESPACE__ . '\\disable_feed', 1 );
-add_action( 'do_feed_rss2_comments', __NAMESPACE__ . '\\disable_feed', 1  );
-add_action( 'do_feed_atom_comments', __NAMESPACE__ . '\\disable_feed', 1 );
+  wp_die(__('No feed available. Please visit the <a href="' . esc_url(home_url('/')) . '">homepage</a>'));
+}, 1);
