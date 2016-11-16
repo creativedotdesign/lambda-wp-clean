@@ -39,3 +39,9 @@ The built in posts that come with the default install.<br>
 
 * **Remove Dashboard Widgets**<br>
 `add_theme_support('wp-clean-remove-dashboard-widgets');`
+
+* **Remove ALL DNS Prefetch**<br>
+`add_theme_support('wp-clean-remove-wp-dns-prefetch');`
+
+* **jQuery CDN**<br>
+`add_theme_support('wp-clean-jquery-cdn');`
