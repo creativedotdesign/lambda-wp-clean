@@ -50,12 +50,9 @@ add_filters(['style_loader_tag', 'script_loader_tag'], function ($input) {
 /**
  *  Remove style and script versions from urls
  */
-add_filters(['style_loader_src', 'script_loader_src'], function($target_url) {
-  if (strpos($target_url, 'ver=')) { // check if "ver=" argument exists in the url
-    $target_url = remove_query_arg('ver', $target_url);
-  }
-  return $target_url;
-}, 20000);
+add_filters(['style_loader_src', 'script_loader_src'], function($src) {
+  return $src ? esc_url(remove_query_arg('ver', $src)) : false;
+}, 15, 1);
 
 
 /*
