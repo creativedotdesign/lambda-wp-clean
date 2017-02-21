@@ -1,6 +1,8 @@
 # lambda-wp-clean
 WordPress plugin to clean up unused functionality and extra bloat.
 
+Heavily inspired the by awesome WordPress plugin [Soil](https://github.com/roots/soil) by [Roots](https://github.com/roots) from [Ben Word](https://github.com/retlehs) and [QWp6t](https://github.com/QWp6t).
+
 # Modules #
 
 * **Cleaner Markup**<br>
